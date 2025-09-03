@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Master - Practice & Test Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f1f5f9;
+            --accent-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        [data-theme="dark"] {
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --border-color: #334155;
+            --secondary-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .theme-toggle {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-color);
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-success {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .dashboard-cards {
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            text-align: center;
+            padding: 2rem;
+            cursor: pointer;
+        }
+
+        .dashboard-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-card {
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-primary);
+        }
+
+        .option:hover {
+            border-color: var(--primary-light);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .option.selected {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .option.correct {
+            border-color: var(--accent-color);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: var(--danger-color);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--secondary-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transition: width 0.3s ease;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .timer.warning {
+            color: var(--warning-color);
+            animation: pulse 1s infinite;
+        }
+
+        .timer.danger {
+            color: var(--danger-color);
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .logout-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">MCQ Master</div>
+                <div class="user-info">
+                    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                    <button class="logout-btn hidden" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Page -->
+    <div id="authPage" class="page active">
+        <div class="container">
+            <div class="auth-container">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1 class="card-title">Welcome to MCQ Master</h1>
+                        <p class="card-description">Practice and test your knowledge with MongoDB backend</p>
+                    </div>
+                    <div class="card-content">
+                        <div id="authAlert"></div>
+                        
+                        <div id="loginForm">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
+                            </div>
+                            <button class="btn btn-primary btn-full mb-4" onclick="login()" id="loginBtn">Login</button>
+                            <p class="text-center">
+                                Don't have an account? 
+                                <a href="#" onclick="showSignup()" style="color: var(--primary-color)">Sign up</a>
+                            </p>
+                        </div>
+                        
+                        <div id="signupForm" class="hidden">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" id="signupName" class="form-input" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="signupPassword" class="form-input" placeholder="Create a password">
+                            </div>
+                            <button class="btn btn-primary btn-full mb-4" onclick="signup()" id="signupBtn">Sign Up</button>
+                            <p class="text-center">
+                                Already have an account? 
+                                <a href="#" onclick="showLogin()" style="color: var(--primary-color)">Login</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page">
+        <div class="container">
+            <h1 class="text-center mb-4">Welcome back, <span id="userName"></span>!</h1>
+            <div class="dashboard-cards grid grid-3">
+                <div class="card dashboard-card" onclick="showPractice()">
+                    <div class="dashboard-icon">📚</div>
+                    <h3 class="card-title">Practice Questions</h3>
+                    <p class="card-description">Practice questions by topic with instant feedback</p>
+                </div>
+                <div class="card dashboard-card" onclick="showTest()">
+                    <div class="dashboard-icon">📝</div>
+                    <h3 class="card-title">Take a Test</h3>
+                    <p class="card-description">Timed tests with detailed analysis</p>
+                </div>
+                <div class="card dashboard-card" onclick="showProfile()">
+                    <div class="dashboard-icon">📊</div>
+                    <h3 class="card-title">Profile & Analysis</h3>
+                    <p class="card-description">View your performance and test history</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice Page -->
+    <div id="practicePage" class="page">
+        <div class="container">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="card-title">Practice Mode</h2>
+                    <button class="btn btn-secondary" onclick="showDashboard()">← Back to Dashboard</button>
+                </div>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label class="form-label">Select Topic</label>
+                        <select id="practiceTopicSelect" class="form-select">
+                            <option value="">Loading topics...</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="startPractice()" id="startPracticeBtn">Start Practice</button>
+                </div>
+            </div>
+
+            <div id="practiceQuestionContainer" class="hidden">
+                <div class="card question-card">
+                    <div class="card-header">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="practiceProgress"></div>
+                        </div>
+                        <p>Question <span id="practiceQuestionNumber"></span> of <span id="practiceTotalQuestions"></span></p>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="question-text" id="practiceQuestionText"></h3>
+                        <div class="options" id="practiceOptions"></div>
+                        <div class="mt-4">
+                            <button class="btn btn-primary" id="practiceSubmitBtn" onclick="submitPracticeAnswer()">Submit Answer</button>
+                            <button class="btn btn-secondary hidden" id="practiceNextBtn" onclick="nextPracticeQuestion()">Next Question</button>
+                        </div>
+                        <div id="practiceFeedback" class="mt-4 hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Setup Page -->
+    <div id="testSetupPage" class="page">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Test Configuration</h2>
+                    <button class="btn btn-secondary" onclick="showDashboard()">← Back to Dashboard</button>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Select Topics</label>
+                            <select id="testTopicSelect" class="form-select" multiple>
+                                <option value="">Loading topics...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Number of Questions</label>
+                            <input type="number" id="testQuestionCount" class="form-input" value="10" min="5" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Time Limit (minutes)</label>
+                            <input type="number" id="testTimeLimit" class="form-input" value="15" min="5" max="120">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full mt-4" onclick="startTest()" id="startTestBtn">Start Test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Page -->
+    <div id="testPage" class="page">
+        <div class="container">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="timer" id="testTimer">15:00</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="testProgress"></div>
+                    </div>
+                    <p>Question <span id="testQuestionNumber"></span> of <span id="testTotalQuestions"></span></p>
+                </div>
+            </div>
+
+            <div class="card question-card">
+                <div class="card-content">
+                    <h3 class="question-text" id="testQuestionText"></h3>
+                    <div class="options" id="testOptions"></div>
+                    <div class="mt-4">
+                        <button class="btn btn-secondary" id="testPrevBtn" onclick="previousTestQuestion()">Previous</button>
+                        <button class="btn btn-primary" id="testNextBtn" onclick="nextTestQuestion()">Next</button>
+                        <button class="btn btn-success" id="testSubmitBtn" onclick="submitTest()">Submit Test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Page -->
+    <div id="analysisPage" class="page">
+        <div class="container">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="card-title">Test Results</h2>
+                    <button class="btn btn-secondary" onclick="showDashboard()">← Back to Dashboard</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <div class="stat-value" id="scoreValue">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="timeValue">0</div>
+                    <div class="stat-label">Time Taken</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="accuracyValue">0%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="avgTimeValue">0s</div>
+                    <div class="stat-label">Avg Time/Question</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Performance Chart</h3>
+                </div>
+                <div class="card-content">
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="card-title">Detailed Review</h3>
+                </div>
+                <div class="card-content" id="detailedReview">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profilePage" class="page">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Profile & Statistics</h2>
+                    <button class="btn btn-secondary" onclick="showDashboard()">← Back to Dashboard</button>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-2">
+                        <div>
+                            <h3>User Information</h3>
+                            <p><strong>Name:</strong> <span id="profileName"></span></p>
+                            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                            <p><strong>Member Since:</strong> <span id="profileJoinDate"></span></p>
+                            <p><strong>Tests Taken:</strong> <span id="profileTestsTaken">0</span></p>
+                        </div>
+                        <div>
+                            <h3>Overall Statistics</h3>
+                            <p><strong>Average Score:</strong> <span id="profileAvgScore">0%</span></p>
+                            <p><strong>Best Score:</strong> <span id="profileBestScore">0%</span></p>
+                            <p><strong>Total Practice Questions:</strong> <span id="profilePracticeCount">0</span></p>
+                            <p><strong>Study Streak:</strong> <span id="profileStreak">0 days</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="card-title">Test History</h3>
+                </div>
+                <div class="card-content" id="testHistory">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Loading test history...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // API Configuration - Replace with your actual MongoDB backend URL
+        const API_BASE_URL = 'http://localhost:4000/api'; // Change this to your deployed backend URL
+
+        // Authentication token storage
+        let authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+
+        // Question and test state
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let practiceMode = false;
+        let testMode = false;
+        let testTimer = null;
+        let testStartTime = null;
+        let testAnswers = [];
+        let selectedAnswers = {};
+        let availableTopics = [];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            if (authToken) {
+                loadUserProfile();
+            }
+            loadTopics();
+        });
+
+        // ======================
+        // API CALLS TO MONGODB BACKEND
+        // ======================
+
+        // Generic API call function with error handling
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            const config = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            if (authToken) {
+                config.headers.Authorization = `Bearer ${authToken}`;
+            }
+
+            if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+                config.body = JSON.stringify(data);
+            }
+
+            try {
+                
+                
+                // Uncomment below for real API calls
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                throw error;
+            }
+        }
+
+        // Mock API for demo purposes - Replace with real MongoDB backend
+
+        function getCurrentUserEmail() {
+            return currentUser ? currentUser.email : null;
+        }
+
+        // ======================
+        // AUTHENTICATION FUNCTIONS
+        // ======================
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            clearAuthAlerts();
+        }
+
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+            clearAuthAlerts();
+        }
+
+        function clearAuthAlerts() {
+            document.getElementById('authAlert').innerHTML = '';
+        }
+
+        function showAuthAlert(message, type = 'error') {
+            const alertDiv = document.getElementById('authAlert');
+            alertDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (!email || !password) {
+                showAuthAlert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<div class="loading"><div class="spinner"></div> Logging in...</div>';
+
+                const response = await apiCall('/auth/login', 'POST', { email, password });
+                
+                if (response.success) {
+                    authToken = response.token;
+                    localStorage.setItem('authToken', authToken);
+                    currentUser = response.user;
+                    
+                    showAuthAlert('Login successful!', 'success');
+                    setTimeout(() => {
+                        document.querySelector('.logout-btn').classList.remove('hidden');
+                        showDashboard();
+                    }, 1000);
+                }
+            } catch (error) {
+                showAuthAlert(error.message || 'Login failed');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Login';
+            }
+        }
+
+        async function signup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const signupBtn = document.getElementById('signupBtn');
+            
+            if (!name || !email || !password) {
+                showAuthAlert('Please fill in all fields');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAuthAlert('Password must be at least 6 characters long');
+                return;
+            }
+
+            try {
+                signupBtn.disabled = true;
+                signupBtn.innerHTML = '<div class="loading"><div class="spinner"></div> Creating account...</div>';
+
+                const response = await apiCall('/auth/register', 'POST', { name, email, password });
+                
+                if (response.success) {
+                    authToken = response.token;
+                    localStorage.setItem('authToken', authToken);
+                    currentUser = response.user;
+                    
+                    showAuthAlert('Account created successfully!', 'success');
+                    setTimeout(() => {
+                        document.querySelector('.logout-btn').classList.remove('hidden');
+                        showDashboard();
+                    }, 1000);
+                }
+            } catch (error) {
+                showAuthAlert(error.message || 'Signup failed');
+            } finally {
+                signupBtn.disabled = false;
+                signupBtn.innerHTML = 'Sign Up';
+            }
+        }
+
+        async function loadUserProfile() {
+            try {
+                const response = await apiCall('/user/profile');
+                if (response.success) {
+                    currentUser = response.user;
+                    document.querySelector('.logout-btn').classList.remove('hidden');
+                    showDashboard();
+                }
+            } catch (error) {
+                console.error('Failed to load user profile:', error);
+                logout();
+            }
+        }
+
+        function logout() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            document.querySelector('.logout-btn').classList.add('hidden');
+            showAuth();
+        }
+
+        // ======================
+        // NAVIGATION FUNCTIONS
+        // ======================
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function showAuth() {
+            showPage('authPage');
+        }
+
+        function showDashboard() {
+            if (!currentUser) {
+                showAuth();
+                return;
+            }
+            document.getElementById('userName').textContent = currentUser.name;
+            showPage('dashboardPage');
+        }
+
+        function showPractice() {
+            showPage('practicePage');
+            document.getElementById('practiceQuestionContainer').classList.add('hidden');
+            loadTopics();
+        }
+
+        function showTest() {
+            showPage('testSetupPage');
+            loadTopics();
+        }
+
+        async function showProfile() {
+            showPage('profilePage');
+            await updateProfile();
+        }
+
+        function showAnalysis() {
+            showPage('analysisPage');
+        }
+
+        // ======================
+        // TOPICS AND QUESTIONS
+        // ======================
+
+        async function loadTopics() {
+            try {
+                const response = await apiCall('/questions/topics');
+                if (response.success) {
+                    availableTopics = response.topics;
+                    populateTopicSelectors();
+                }
+            } catch (error) {
+                console.error('Failed to load topics:', error);
+            }
+        }
+
+        function populateTopicSelectors() {
+            const practiceSelect = document.getElementById('practiceTopicSelect');
+            const testSelect = document.getElementById('testTopicSelect');
+            
+            // Clear existing options
+            practiceSelect.innerHTML = '<option value="">All Topics</option>';
+            testSelect.innerHTML = '';
+            
+            availableTopics.forEach(topic => {
+                const option1 = new Option(topic, topic);
+                const option2 = new Option(topic, topic);
+                practiceSelect.add(option1);
+                testSelect.add(option2);
+            });
+        }
+
+        // ======================
+        // PRACTICE MODE FUNCTIONS
+        // ======================
+
+        async function startPractice() {
+            const selectedTopic = document.getElementById('practiceTopicSelect').value;
+            const startBtn = document.getElementById('startPracticeBtn');
+            
+            try {
+                startBtn.disabled = true;
+                startBtn.innerHTML = '<div class="loading"><div class="spinner"></div> Loading questions...</div>';
+
+                const response = await apiCall('/questions/by-topic', 'GET', selectedTopic);
+                
+                if (response.success && response.questions.length > 0) {
+                    currentQuestions = response.questions;
+                    currentQuestionIndex = 0;
+                    practiceMode = true;
+                    
+                    document.getElementById('practiceQuestionContainer').classList.remove('hidden');
+                    loadPracticeQuestion();
+                } else {
+                    alert('No questions available for selected topic');
+                }
+            } catch (error) {
+                console.error('Failed to load practice questions:', error);
+                alert('Failed to load questions. Please try again.');
+            } finally {
+                startBtn.disabled = false;
+                startBtn.innerHTML = 'Start Practice';
+            }
+        }
+
+        function loadPracticeQuestion() {
+            const question = currentQuestions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+            
+            document.getElementById('practiceProgress').style.width = progress + '%';
+            document.getElementById('practiceQuestionNumber').textContent = currentQuestionIndex + 1;
+            document.getElementById('practiceTotalQuestions').textContent = currentQuestions.length;
+            document.getElementById('practiceQuestionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('practiceOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                if (option.trim()) {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.textContent = option;
+                    optionDiv.onclick = () => selectPracticeOption(optionDiv, option);
+                    optionsContainer.appendChild(optionDiv);
+                }
+            });
+            
+            document.getElementById('practiceSubmitBtn').classList.remove('hidden');
+            document.getElementById('practiceNextBtn').classList.add('hidden');
+            document.getElementById('practiceFeedback').classList.add('hidden');
+            
+            // Reset option selections
+            window.selectedPracticeAnswer = null;
+        }
+
+        function selectPracticeOption(optionElement, option) {
+            document.querySelectorAll('#practiceOptions .option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            optionElement.classList.add('selected');
+            window.selectedPracticeAnswer = option;
+        }
+
+        async function submitPracticeAnswer() {
+            if (!window.selectedPracticeAnswer) {
+                alert('Please select an answer');
+                return;
+            }
+            
+            const question = currentQuestions[currentQuestionIndex];
+            const submitBtn = document.getElementById('practiceSubmitBtn');
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<div class="loading"><div class="spinner"></div> Checking...</div>';
+
+                const response = await apiCall('/practice/submit', 'POST', {
+                    questionId: question._id,
+                    userAnswer: window.selectedPracticeAnswer,
+                    correctAnswer: question.correctAnswer
+                });
+                
+                if (response.success) {
+                    const isCorrect = response.correct;
+                    
+                    // Show feedback
+                    const feedbackDiv = document.getElementById('practiceFeedback');
+                    feedbackDiv.innerHTML = `
+                        <div class="card" style="border-left: 4px solid ${isCorrect ? 'var(--accent-color)' : 'var(--danger-color)'};">
+                            <div class="card-content">
+                                <h4>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</h4>
+                                <p><strong>Correct Answer:</strong> ${response.correctAnswer}</p>
+                                ${!isCorrect ? `<p><strong>Your Answer:</strong> ${window.selectedPracticeAnswer}</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    feedbackDiv.classList.remove('hidden');
+                    
+                    // Update option styles
+                    document.querySelectorAll('#practiceOptions .option').forEach(opt => {
+                        if (opt.textContent === response.correctAnswer) {
+                            opt.classList.add('correct');
+                        } else if (opt.textContent === window.selectedPracticeAnswer && !isCorrect) {
+                            opt.classList.add('incorrect');
+                        }
+                    });
+                    
+                    document.getElementById('practiceSubmitBtn').classList.add('hidden');
+                    document.getElementById('practiceNextBtn').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Failed to submit practice answer:', error);
+                alert('Failed to submit answer. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Answer';
+            }
+        }
+
+        function nextPracticeQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < currentQuestions.length) {
+                loadPracticeQuestion();
+            } else {
+                alert('Practice completed! Great job!');
+                showDashboard();
+            }
+        }
+
+        // ======================
+        // TEST MODE FUNCTIONS
+        // ======================
+
+        async function startTest() {
+            const selectedTopics = Array.from(document.getElementById('testTopicSelect').selectedOptions).map(opt => opt.value);
+            const questionCount = parseInt(document.getElementById('testQuestionCount').value);
+            const timeLimit = parseInt(document.getElementById('testTimeLimit').value);
+            const startBtn = document.getElementById('startTestBtn');
+            
+            if (selectedTopics.length === 0) {
+                alert('Please select at least one topic');
+                return;
+            }
+            
+            try {
+                startBtn.disabled = true;
+                startBtn.innerHTML = '<div class="loading"><div class="spinner"></div> Preparing test...</div>';
+
+                const response = await apiCall('/questions/for-test', 'POST', {
+                    topics: selectedTopics,
+                    count: questionCount
+                });
+                
+                if (response.success && response.questions.length > 0) {
+                    currentQuestions = response.questions;
+                    currentQuestionIndex = 0;
+                    testMode = true;
+                    selectedAnswers = {};
+                    testAnswers = new Array(currentQuestions.length).fill(null);
+                    testStartTime = Date.now();
+                    
+                    // Start timer
+                    const totalSeconds = timeLimit * 60;
+                    startTestTimer(totalSeconds);
+                    
+                    showPage('testPage');
+                    loadTestQuestion();
+                } else {
+                    alert('No questions available for selected topics');
+                }
+            } catch (error) {
+                console.error('Failed to start test:', error);
+                alert('Failed to start test. Please try again.');
+            } finally {
+                startBtn.disabled = false;
+                startBtn.innerHTML = 'Start Test';
+            }
+        }
+
+        function startTestTimer(totalSeconds) {
+            let timeLeft = totalSeconds;
+            const timerElement = document.getElementById('testTimer');
+            
+            testTimer = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 60) {
+                    timerElement.className = 'timer danger';
+                } else if (timeLeft <= 300) {
+                    timerElement.className = 'timer warning';
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(testTimer);
+                    submitTest();
+                    return;
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        function loadTestQuestion() {
+            const question = currentQuestions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+            
+            document.getElementById('testProgress').style.width = progress + '%';
+            document.getElementById('testQuestionNumber').textContent = currentQuestionIndex + 1;
+            document.getElementById('testTotalQuestions').textContent = currentQuestions.length;
+            document.getElementById('testQuestionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('testOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                if (option.trim()) {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.textContent = option;
+                    
+                    // Check if this option was previously selected
+                    if (testAnswers[currentQuestionIndex] === option) {
+                        optionDiv.classList.add('selected');
+                    }
+                    
+                    optionDiv.onclick = () => selectTestOption(optionDiv, option);
+                    optionsContainer.appendChild(optionDiv);
+                }
+            });
+            
+            // Update navigation buttons
+            document.getElementById('testPrevBtn').style.display = currentQuestionIndex > 0 ? 'inline-flex' : 'none';
+            document.getElementById('testNextBtn').style.display = currentQuestionIndex < currentQuestions.length - 1 ? 'inline-flex' : 'none';
+            document.getElementById('testSubmitBtn').style.display = currentQuestionIndex === currentQuestions.length - 1 ? 'inline-flex' : 'none';
+        }
+
+        function selectTestOption(optionElement, option) {
+            document.querySelectorAll('#testOptions .option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            optionElement.classList.add('selected');
+            testAnswers[currentQuestionIndex] = option;
+        }
+
+        function previousTestQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadTestQuestion();
+            }
+        }
+
+        function nextTestQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                loadTestQuestion();
+            }
+        }
+
+        async function submitTest() {
+            if (testTimer) {
+                clearInterval(testTimer);
+            }
+            
+            const timeTaken = Math.round((Date.now() - testStartTime) / 1000); // in seconds
+            const topics = [...new Set(currentQuestions.map(q => q.topic))];
+            
+            try {
+                const response = await apiCall('/test/submit', 'POST', {
+                    questions: currentQuestions,
+                    answers: testAnswers,
+                    timeTaken,
+                    topics
+                });
+                
+                if (response.success) {
+                    displayAnalysis(response.result);
+                    showAnalysis();
+                }
+            } catch (error) {
+                console.error('Failed to submit test:', error);
+                alert('Failed to submit test. Please try again.');
+            }
+        }
+
+        // ======================
+        // ANALYSIS AND PROFILE
+        // ======================
+
+        function displayAnalysis(testResult) {
+            const avgTimePerQuestion = Math.round(testResult.timeTaken / testResult.totalQuestions);
+            
+            document.getElementById('scoreValue').textContent = `${testResult.correctAnswers}/${testResult.totalQuestions}`;
+            document.getElementById('timeValue').textContent = formatTime(testResult.timeTaken);
+            document.getElementById('accuracyValue').textContent = `${testResult.score}%`;
+            document.getElementById('avgTimeValue').textContent = `${avgTimePerQuestion}s`;
+            
+            // Create performance chart
+            createPerformanceChart(testResult);
+            
+            // Display detailed review
+            displayDetailedReview(testResult.results);
+        }
+
+        function createPerformanceChart(testResult) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.performanceChartInstance) {
+                window.performanceChartInstance.destroy();
+            }
+            
+            window.performanceChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct', 'Incorrect'],
+                    datasets: [{
+                        data: [testResult.correctAnswers, testResult.totalQuestions - testResult.correctAnswers],
+                        backgroundColor: ['#10b981', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayDetailedReview(results) {
+            const reviewContainer = document.getElementById('detailedReview');
+            reviewContainer.innerHTML = '';
+            
+            results.forEach((result, index) => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'card mb-4';
+                reviewItem.innerHTML = `
+                    <div class="card-header">
+                        <h4>Question ${index + 1} ${result.isCorrect ? '✅' : '❌'}</h4>
+                        <small>Topic: ${result.topic}</small>
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Question:</strong> ${result.question}</p>
+                        <div class="options">
+                            ${result.options.filter(opt => opt.trim()).map(option => `
+                                <div class="option ${option === result.correctAnswer ? 'correct' : ''} ${option === result.userAnswer && !result.isCorrect ? 'incorrect' : ''}">
+                                    ${option}
+                                    ${option === result.correctAnswer ? ' ✅' : ''}
+                                    ${option === result.userAnswer && !result.isCorrect ? ' ❌' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${!result.isCorrect ? `<p class="mt-4"><strong>Your Answer:</strong> ${result.userAnswer || 'Not answered'}</p>` : ''}
+                    </div>
+                `;
+                reviewContainer.appendChild(reviewItem);
+            });
+        }
+
+        async function updateProfile() {
+            if (!currentUser) return;
+            
+            try {
+                // Load fresh user data
+                const userResponse = await apiCall('/user/profile');
+                if (userResponse.success) {
+                    currentUser = userResponse.user;
+                }
+                
+                document.getElementById('profileName').textContent = currentUser.name;
+                document.getElementById('profileEmail').textContent = currentUser.email;
+                document.getElementById('profileJoinDate').textContent = new Date(currentUser.createdAt).toLocaleDateString();
+                document.getElementById('profileTestsTaken').textContent = currentUser.stats.testsTaken;
+                document.getElementById('profileAvgScore').textContent = currentUser.stats.averageScore + '%';
+                document.getElementById('profileBestScore').textContent = currentUser.stats.bestScore + '%';
+                document.getElementById('profilePracticeCount').textContent = currentUser.stats.practiceQuestions;
+                document.getElementById('profileStreak').textContent = currentUser.stats.studyStreak + ' days';
+                
+                // Load test history
+                const historyResponse = await apiCall('/test/history');
+                const historyContainer = document.getElementById('testHistory');
+                
+                if (historyResponse.success && historyResponse.tests.length > 0) {
+                    historyContainer.innerHTML = historyResponse.tests.reverse().map(test => `
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <div class="grid grid-2">
+                                    <div>
+                                        <p><strong>Date:</strong> ${new Date(test.date).toLocaleDateString()}</p>
+                                        <p><strong>Score:</strong> ${test.score}% (${test.correctAnswers}/${test.totalQuestions})</p>
+                                        <p><strong>Topics:</strong> ${test.topics.join(', ')}</p>
+                                    </div>
+                                    <div>
+                                        <p><strong>Time:</strong> ${formatTime(test.timeTaken)}</p>
+                                        <p><strong>Avg Time/Q:</strong> ${Math.round(test.timeTaken / test.totalQuestions)}s</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    historyContainer.innerHTML = '<p class="text-center">No test history available</p>';
+                }
+            } catch (error) {
+                console.error('Failed to load profile data:', error);
+                document.getElementById('testHistory').innerHTML = '<p class="text-center">Failed to load test history</p>';
+            }
+        }
+
+        // ======================
+        // UTILITY FUNCTIONS
+        // ======================
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            document.querySelector('.theme-toggle').textContent = newTheme === 'light' ? '🌙' : '☀️';
+            
+            // Save theme preference
+            if (currentUser) {
+                // In a real app, you would save this to the database
+                localStorage.setItem(`theme_${currentUser.email}`, newTheme);
+            }
+        }
+
+        // Load user theme preference
+        function loadUserTheme() {
+            if (currentUser) {
+                const savedTheme = localStorage.getItem(`theme_${currentUser.email}`) || 'light';
+                document.body.setAttribute('data-theme', savedTheme);
+                document.querySelector('.theme-toggle').textContent = savedTheme === 'light' ? '🌙' : '☀️';
+            }
+        }
+
+        // Initialize theme when user logs in
+        function initializeUserSession() {
+            loadUserTheme();
+            // Load other user-specific settings here
+        }
+
+        // Call this after successful login/signup
+        function onUserLogin() {
+            initializeUserSession();
+        }
+
+    </script>
+
+    <!-- MongoDB Backend API Documentation -->
+    <div style="display: none;">
+        <!--
+        
+        MONGODB BACKEND API SPECIFICATION
+        ==================================
+        
+        This frontend is designed to work with a MongoDB backend. Here's the complete API specification:
+
+        DATABASE SCHEMA:
+        ================
+
+        1. Users Collection (users):
+        {
+            _id: ObjectId,
+            name: String,
+            email: String (unique),
+            password: String (hashed),
+            createdAt: Date,
+            stats: {
+                testsTaken: Number,
+                practiceQuestions: Number,
+                averageScore: Number,
+                bestScore: Number,
+                studyStreak: Number
+            },
+            preferences: {
+                theme: String
+            }
+        }
+
+        2. Questions Collection (questions):
+        {
+            _id: ObjectId,
+            topic: String,
+            question: String,
+            options: [String],
+            correctAnswer: String,
+            difficulty: String,
+            createdAt: Date,
+            createdBy: ObjectId (ref: users),
+            tags: [String]
+        }
+
+        3. Test Results Collection (testResults):
+        {
+            _id: ObjectId,
+            userId: ObjectId (ref: users),
+            date: Date,
+            score: Number,
+            timeTaken: Number,
+            totalQuestions: Number,
+            correctAnswers: Number,
+            topics: [String],
+            results: [{
+                questionId: ObjectId (ref: questions),
+                question: String,
+                topic: String,
+                userAnswer: String,
+                correctAnswer: String,
+                isCorrect: Boolean,
+                options: [String]
+            }]
+        }
+
+        4. Practice Sessions Collection (practiceSessions):
+        {
+            _id: ObjectId,
+            userId: ObjectId (ref: users),
+            questionId: ObjectId (ref: questions),
+            userAnswer: String,
+            isCorrect: Boolean,
+            timestamp: Date,
+            topic: String
+        }
+
+        API ENDPOINTS:
+        ==============
+
+        Authentication:
+        POST /api/auth/register
+        Body: { name, email, password }
+        Response: { success: true, user: {}, token: "" }
+
+        POST /api/auth/login  
+        Body: { email, password }
+        Response: { success: true, user: {}, token: "" }
+
+        POST /api/auth/logout
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true }
+
+        User Management:
+        GET /api/user/profile
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true, user: {} }
+
+        PUT /api/user/profile
+        Headers: { Authorization: "Bearer <token>" }
+        Body: { name?, theme? }
+        Response: { success: true, user: {} }
+
+        Questions:
+        GET /api/questions/topics
+        Response: { success: true, topics: ["Topic1", "Topic2", ...] }
+
+        GET /api/questions/by-topic?topic=<topic>
+        Response: { success: true, questions: [...] }
+
+        POST /api/questions/for-test
+        Body: { topics: [], count: number }
+        Response: { success: true, questions: [...] }
+
+        GET /api/questions/search?q=<query>&topic=<topic>
+        Response: { success: true, questions: [...] }
+
+        Practice:
+        POST /api/practice/submit
+        Headers: { Authorization: "Bearer <token>" }
+        Body: { questionId, userAnswer, correctAnswer }
+        Response: { success: true, correct: boolean, correctAnswer: "" }
+
+        GET /api/practice/history
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true, sessions: [...] }
+
+        Tests:
+        POST /api/test/submit
+        Headers: { Authorization: "Bearer <token>" }
+        Body: { questions: [], answers: [], timeTaken: number, topics: [] }
+        Response: { success: true, result: {} }
+
+        GET /api/test/history
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true, tests: [...] }
+
+        GET /api/test/:id
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true, test: {} }
+
+        Analytics:
+        GET /api/analytics/user-stats
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true, stats: {} }
+
+        GET /api/analytics/topic-performance
+        Headers: { Authorization: "Bearer <token>" }
+        Response: { success: true, performance: {} }
+
+        Admin (if needed):
+        POST /api/admin/questions
+        Headers: { Authorization: "Bearer <admin_token>" }
+        Body: { topic, question, options, correctAnswer, difficulty }
+        Response: { success: true, question: {} }
+
+        PUT /api/admin/questions/:id
+        DELETE /api/admin/questions/:id
+
+        NODE.JS + MONGODB BACKEND EXAMPLE:
+        ==================================
+
+        ```javascript
+        const express = require('express');
+        const mongoose = require('mongoose');
+        const bcrypt = require('bcryptjs');
+        const jwt = require('jsonwebtoken');
+        const cors = require('cors');
+
+        const app = express();
+        app.use(cors());
+        app.use(express.json());
+
+        // MongoDB Connection
+        mongoose.connect('mongodb://localhost:27017/mcq_master', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+
+        // User Schema
+        const userSchema = new mongoose.Schema({
+            name: { type: String, required: true },
+            email: { type: String, required: true, unique: true },
+            password: { type: String, required: true },
+            stats: {
+                testsTaken: { type: Number, default: 0 },
+                practiceQuestions: { type: Number, default: 0 },
+                averageScore: { type: Number, default: 0 },
+                bestScore: { type: Number, default: 0 },
+                studyStreak: { type: Number, default: 0 }
+            },
+            preferences: {
+                theme: { type: String, default: 'light' }
+            }
+        }, { timestamps: true });
+
+        // Question Schema  
+        const questionSchema = new mongoose.Schema({
+            topic: { type: String, required: true },
+            question: { type: String, required: true },
+            options: [{ type: String, required: true }],
+            correctAnswer: { type: String, required: true },
+            difficulty: { type: String, enum: ['easy', 'medium', 'hard'], default: 'medium' }
+        }, { timestamps: true });
+
+        // Test Result Schema
+        const testResultSchema = new mongoose.Schema({
+            userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+            score: { type: Number, required: true },
+            timeTaken: { type: Number, required: true },
+            totalQuestions: { type: Number, required: true },
+            correctAnswers: { type: Number, required: true },
+            topics: [String],
+            results: [{
+                questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+                question: String,
+                topic: String,
+                userAnswer: String,
+                correctAnswer: String,
+                isCorrect: Boolean,
+                options: [String]
+            }]
+        }, { timestamps: true });
+
+        const User = mongoose.model('User', userSchema);
+        const Question = mongoose.model('Question', questionSchema);
+        const TestResult = mongoose.model('TestResult', testResultSchema);
+
+        // Middleware
+        const authenticateToken = (req, res, next) => {
+            const authHeader = req.headers['authorization'];
+            const token = authHeader && authHeader.split(' ')[1];
+
+            if (!token) {
+                return res.status(401).json({ error: 'Access token required' });
+            }
+
+            jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+                if (err) return res.status(403).json({ error: 'Invalid token' });
+                req.user = user;
+                next();
+            });
+        };
+
+        // Auth Routes
+        app.post('/api/auth/register', async (req, res) => {
+            try {
+                const { name, email, password } = req.body;
+                
+                const existingUser = await User.findOne({ email });
+                if (existingUser) {
+                    return res.status(400).json({ error: 'User already exists' });
+                }
+
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const user = new User({ name, email, password: hashedPassword });
+                await user.save();
+
+                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+                res.json({ 
+                    success: true, 
+                    user: { ...user.toObject(), password: undefined }, 
+                    token 
+                });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        app.post('/api/auth/login', async (req, res) => {
+            try {
+                const { email, password } = req.body;
+                
+                const user = await User.findOne({ email });
+                if (!user || !await bcrypt.compare(password, user.password)) {
+                    return res.status(400).json({ error: 'Invalid credentials' });
+                }
+
+                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+                res.json({ 
+                    success: true, 
+                    user: { ...user.toObject(), password: undefined }, 
+                    token 
+                });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        // Questions Routes
+        app.get('/api/questions/topics', async (req, res) => {
+            try {
+                const topics = await Question.distinct('topic');
+                res.json({ success: true, topics });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        app.get('/api/questions/by-topic', async (req, res) => {
+            try {
+                const { topic } = req.query;
+                const filter = topic ? { topic } : {};
+                const questions = await Question.find(filter);
+                res.json({ success: true, questions });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        // Test Routes
+        app.post('/api/test/submit', authenticateToken, async (req, res) => {
+            try {
+                const { questions, answers, timeTaken, topics } = req.body;
+                
+                let correctAnswers = 0;
+                const results = questions.map((question, index) => {
+                    const userAnswer = answers[index];
+                    const isCorrect = userAnswer === question.correctAnswer;
+                    if (isCorrect) correctAnswers++;
+                    
+                    return {
+                        questionId: question._id,
+                        question: question.question,
+                        topic: question.topic,
+                        userAnswer,
+                        correctAnswer: question.correctAnswer,
+                        isCorrect,
+                        options: question.options
+                    };
+                });
+
+                const score = Math.round((correctAnswers / questions.length) * 100);
+                
+                const testResult = new TestResult({
+                    userId: req.user.id,
+                    score,
+                    timeTaken,
+                    totalQuestions: questions.length,
+                    correctAnswers,
+                    topics,
+                    results
+                });
+                
+                await testResult.save();
+                
+                // Update user stats
+                await User.findByIdAndUpdate(req.user.id, {
+                    $inc: { 'stats.testsTaken': 1 },
+                    $max: { 'stats.bestScore': score }
+                });
+                
+                res.json({ success: true, result: testResult });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        app.listen(3000, () => {
+            console.log('Server running on port 3000');
+        });
+        ```
+
+        DEPLOYMENT INSTRUCTIONS:
+        ========================
+
+        1. Set up MongoDB Atlas or local MongoDB instance
+        2. Create Node.js backend with above code
+        3. Set environment variables:
+           - MONGODB_URI
+           - JWT_SECRET
+           - PORT
+        4. Deploy backend to Heroku/Vercel/DigitalOcean
+        5. Update API_BASE_URL in frontend to your deployed backend URL
+        6. Deploy frontend to Netlify/Vercel
+
+        SAMPLE QUESTIONS DATA FOR SEEDING:
+        ==================================
+
+        ```javascript
+        const sampleQuestions = [
+            {
+                topic: "General Meteorology",
+                question: "Lowest layer of atmosphere is",
+                options: ["Troposphere", "Tropopause", "Stratosphere", "Mesosphere"],
+                correctAnswer: "Troposphere",
+                difficulty: "easy"
+            },
+            // Add more sample questions...
+        ];
+
+        // Seed questions
+        Question.insertMany(sampleQuestions);
+        ```
+
+        -->
+    </div>
+</body>
+</html>
